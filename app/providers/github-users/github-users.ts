@@ -20,6 +20,8 @@ export class GithubUsers {
     load() {
         if (this.githubUsers) {
             // already loaded users
+
+
             return Promise.resolve(this.githubUsers);
         }
 
@@ -33,6 +35,8 @@ export class GithubUsers {
                 .subscribe(users => {
                     // we've got back the raw users, now generate the core schedule users
                     // and save the users for later reference
+                    console.log(users);
+                    console.log("DO IT WORK");
                     this.githubUsers = users;
                     resolve(this.githubUsers);
                 });

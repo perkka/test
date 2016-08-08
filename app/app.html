@@ -1,17 +1,22 @@
-<ion-menu [content]="content">
 
-    <ion-toolbar>
-        <ion-title>Pages</ion-title>
-    </ion-toolbar>
 
-    <ion-content>
-        <ion-list>
-            <button ion-item *ngFor="let p of pages" (click)="openPage(p)">
-                {{p.title}}
-            </button>
-        </ion-list>
-    </ion-content>
 
-</ion-menu>
+<ion-navbar *navbar>
+    <ion-title>
+        Home
+    </ion-title>
+</ion-navbar>
+ 
+<ion-content class="home">
+    <button (click)="login()">Facebook Login</button>
+</ion-content>
 
-<ion-nav id="nav" [root]="rootPage" #content swipe-back-enabled="false"></ion-nav>
+
+<!--
+ <ion-tabs tabsPlacement="top">
+    <ion-tab tabIcon="contact" [root]="tab1"></ion-tab>
+    <ion-tab tabIcon="compass" [root]="tab2"></ion-tab>
+    <ion-tab tabIcon="analytics" [root]="tab3"></ion-tab>
+    <ion-tab tabIcon="settings" [root]="tab4"></ion-tab>
+  </ion-tabs>
+  -->

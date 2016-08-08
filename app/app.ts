@@ -1,6 +1,7 @@
 import {Component, ViewChild} from '@angular/core';
-import {ionicBootstrap, Platform, MenuController, Nav} from 'ionic-angular';
-import {StatusBar} from 'ionic-native';
+import {ionicBootstrap, Platform, Nav} from 'ionic-angular';
+import {CordovaOauth, Facebook} from 'ng2-cordova-oauth/core';
+//import {StatusBar} from 'ionic-native';
 
 import {UsersPage} from './pages/users/users';
 import {ReposPage} from './pages/repos/repos';
@@ -11,44 +12,37 @@ import {OrganizationsPage} from './pages/organizations/organizations'
   templateUrl: 'build/app.html'
 })
 class MyApp {
-    @ViewChild(Nav) nav: Nav;
 
-    // make UsersPage the root (or first) page
-    // rootPage: any = UsersPage;
-    rootPage: any = UsersPage;
-    pages: Array<{ title: string, component: any }>;
-    constructor(
-        private platform: Platform,
-        private menu: MenuController
-    ) {
-        this.initializeApp();
+  private tab1: any;
+  private tab2: any;
+  private platform: any;
+  private cordovaOauth: any;
 
-        // set our app's pages
-        this.pages = [
-            // Comment out pages we deleted
-            //{ title: 'Hello Ionic', component: HelloIonicPage },
-            //{ title: 'My First List', component: ListPage }
-            { title: 'Users', component: UsersPage },
-            { title: 'Repos', component: ReposPage },
-            { title: 'Organizations', component: OrganizationsPage }
-        ];
-    }
-
+  constructor() {
+    this.platform = Platform;
+    this.cordovaOauth = new CordovaOauth(new Facebook({clientId: "910719762366712", appScope: ["email"]}));;
     
-  initializeApp() {
-    this.platform.ready().then(() => {
-      // Okay, so the platform is ready and our plugins are available.
-      // Here you can do any higher level native things you might need.
-      StatusBar.styleDefault();
-    });
+    this.tab1 = UsersPage;
+    this.tab2 = ReposPage;
   }
 
-  openPage(page) {
-    // close the menu when clicking a link from the menu
-    this.menu.close();
-    // navigate to the new page if it is not the current page
-    this.nav.setRoot(page.component);
-  }
+  login() {
+        this.platform.ready().then(() => {
+            this.cordovaOauth.login().then((success) => {
+                alert(success.access_token);
+            }, (error) => {
+                alert(error);
+            });
+        });
+    }
 }
 
-ionicBootstrap(MyApp);
+
+ionicBootstrap(MyApp, [], {
+  backButtonText: 'Go Back',
+  iconMode: 'ios',
+  modalEnter: 'modal-slide-in',
+  modalLeave: 'modal-slide-out',
+  tabsPlacement: 'bottom',
+  pageTransition: 'ios',
+});
